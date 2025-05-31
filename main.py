@@ -21,6 +21,8 @@ from src.sounds import *
 # CODE
 ###################
 
+PLAYER_DELAY_SECONDS = 3
+
 for file in os.listdir("screenshots"):
     os.remove(f"screenshots/{file}")
 
@@ -34,19 +36,15 @@ p_instruct("3. Enter a name and then enter the sandbox session.")
 p_instruct("4. Make sure the browser window is fit to the screen.")
 enter_to_continue()
 
-p_instruct("After you press enter, you will have 5 seconds to click into the game window. After that, the bot will begin working.")
+p_instruct(f"After you press enter, you will have {PLAYER_DELAY_SECONDS} seconds to click into the game window. After that, the bot will begin working.")
 enter_to_continue()
 
-time.sleep(5)
+time.sleep(PLAYER_DELAY_SECONDS)
 
 p_instruct("The bot will begin working. Please do not touch your mouse or keyboard.")
 
-screenshot = capture_screen()
+print(get_game_screen())
 
-if screenshot:
-  width, height = screenshot.size
-  # crop: (left, top, right, bottom)
-  cropped_screenshot = screenshot.crop((0, 320, width, height-150))
-  cropped_screenshot.save("screenshots/screenshot.png")
+print(isolate_score())
 
 play_sound("sound_files/beep.mp3")
