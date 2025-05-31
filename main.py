@@ -6,17 +6,23 @@
 
 import json
 import time
+import os
 
 ###################
 # LOCAL IMPORTS
 ###################
 
-from formatted_output import *
-from input_simulation import *
+from src.formatted_output import *
+from src.input_simulation import *
+from src.screen_capture import *
+from src.sounds import *
 
 ###################
 # CODE
 ###################
+
+for file in os.listdir("screenshots"):
+    os.remove(f"screenshots/{file}")
 
 p_warn("This script will take control of your mouse and keyboard occasionally.")
 enter_to_continue()
@@ -35,3 +41,12 @@ time.sleep(5)
 
 p_instruct("The bot will begin working. Please do not touch your mouse or keyboard.")
 
+screenshot = capture_screen()
+
+if screenshot:
+  width, height = screenshot.size
+  # crop: (left, top, right, bottom)
+  cropped_screenshot = screenshot.crop((0, 320, width, height-150))
+  cropped_screenshot.save("screenshots/screenshot.png")
+
+play_sound("sound_files/beep.mp3")
