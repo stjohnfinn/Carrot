@@ -4,38 +4,34 @@
 # IMPORTS
 ###################
 
-import numpy as np
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from formatted_output import *
 import json
+import time
 
+###################
+# LOCAL IMPORTS
+###################
 
-options = Options()
-options.add_argument("window-size=700,700")
-driver = webdriver.Chrome(options=options)
+from formatted_output import *
+from input_simulation import *
 
-driver.get("https://diep.io")
+###################
+# CODE
+###################
 
-p_instruct("Please navigate to http://diep.io and begin a sandbox session.")
-p_warn("DO NOT RESIZE THE WINDOW.")
-akc()
+p_warn("This script will take control of your mouse and keyboard occasionally.")
+enter_to_continue()
 
-js="""
-let _rScore = "0";
-CanvasRenderingContext2D.prototype.fillText = new Proxy(CanvasRenderingContext2D.prototype.fillText, {
-    apply(fillRect, ctx, [text, x, y, ...blah]) {
+p_instruct("Please open a chrome browser window and navigate to http://diep.io/ and then complete the following steps:")
+p_instruct("1. Complete the captcha.")
+p_instruct("2. Begin a sandbox session.")
+p_instruct("3. Enter a name and then enter the sandbox session.")
+p_instruct("4. Make sure the browser window is fit to the screen.")
+enter_to_continue()
 
-        if (text.startsWith('Score: ')) _rScore = text
+p_instruct("After you press enter, you will have 5 seconds to click into the game window. After that, the bot will begin working.")
+enter_to_continue()
 
-        alert(_rScore)
+time.sleep(5)
 
-        fillRect.call(ctx, text, x, y, ...blah);
-    }
-})
-"""
-driver.execute_script(js)
+p_instruct("The bot will begin working. Please do not touch your mouse or keyboard.")
 
-akc()
-
-driver.quit()
